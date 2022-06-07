@@ -175,7 +175,7 @@ def insert(node, value):
         return Node(value)
     else:
         recursive_insert(node, value, queue)
-        #print_tree(node, val="value")
+        # print_tree(node, val="value")
         get_b_factor(node)
 
         # Tree is imbalanced
@@ -188,13 +188,13 @@ def insert(node, value):
             if queue[0] == "left" and queue[1] == "left":
                 new_root = fix_tree(node, "ll")
             elif queue[0] == "left" and queue[1] == "right":
-                #Left-right imbalance
+                # Left-right imbalance
                 new_root = fix_tree(node, "lr")
             elif queue[0] == "right" and queue[1] == "right":
-                #Right-right imbalance
+                # Right-right imbalance
                 new_root = fix_tree(node, "rr")
             elif queue[0] == "right" and queue[1] == "left":
-                #Right-left imbalance
+                # Right-left imbalance
                 new_root = fix_tree(node, "rl")
             else:
                 raise Exception("Invalid imbalance case")
@@ -219,3 +219,5 @@ def insert_avl_tree(array):
     root = None
     for value in array:
         root = insert(root, value)
+
+    return root

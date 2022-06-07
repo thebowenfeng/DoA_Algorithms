@@ -49,3 +49,75 @@ def print_tree(root, val="val", left="left", right="right"):
     lines, *_ = display(root, val, left, right)
     for line in lines:
         print(line)
+
+
+def print_23_tree(root):
+    # BFS search
+    queue = [(root, 0)]
+    curr_level_nodes = []
+    prev_level = 0
+    all_nodes = []
+    outer_is_all_none = False
+
+    while queue:
+        node, level = queue.pop(0)
+
+        if level > prev_level:
+            prev_level = level
+            is_all_none = True
+            for naode in curr_level_nodes:
+                if naode != "None":
+                    is_all_none = False
+                    break
+
+            if is_all_none:
+                outer_is_all_none = True
+                break
+            else:
+                all_nodes.append(curr_level_nodes)
+                curr_level_nodes = [str(node)]
+        else:
+            curr_level_nodes.append(str(node))
+
+        if node is not None:
+            queue.append((node.child1, level+1))
+            queue.append((node.child2, level+1))
+            queue.append((node.child3, level+1))
+        else:
+            queue.append((None, level+1))
+            queue.append((None, level + 1))
+            queue.append((None, level + 1))
+
+    if not outer_is_all_none:
+        all_nodes.append(curr_level_nodes)
+
+    level_str = []
+    NODE_WIDTH = 8
+    gap = 1
+    pg = 0
+    #Print
+    for level in range(len(all_nodes), 0, -1):
+        nodes = all_nodes[level-1]
+        curr_str = " " * pg
+
+        for i in range(3 ** (level - 1)):
+            # Just print node
+            if i == 3 ** level - 1:
+                if nodes[i] != "None":
+                    curr_str += str(nodes[i])
+                else:
+                    curr_str += " " * NODE_WIDTH
+            else:
+                if nodes[i] != "None":
+                    curr_str += str(nodes[i]) + " " * gap
+                else:
+                    curr_str += " " * (NODE_WIDTH + gap)
+
+        curr_str += " " * pg
+        level_str.append(curr_str)
+        pg = pg + NODE_WIDTH + gap
+        gap = 3 * gap + 2 * NODE_WIDTH
+
+    for i in range(len(level_str) - 1, -1, -1):
+        print(level_str[i])
+        print(" " * (len(level_str[i]) - 1))
