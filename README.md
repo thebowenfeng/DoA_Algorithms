@@ -7,3 +7,7 @@ Sample usage of each algorithm/data structure is in main.py
 ### AVL Tree
 
 `insert_avl_tree()` in `AVL.py`. 
+
+### 2-3 Trees
+
+`insert_23_tree()` in `twothreetree.py`
