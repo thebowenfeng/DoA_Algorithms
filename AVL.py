@@ -370,3 +370,5 @@ def delete_avl_tree(root, array):
     '''
     for value in array:
         root = delete(root, value)
+
+    return root
