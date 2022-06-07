@@ -98,10 +98,10 @@ def reconfigure_children(node: Node):
         node.child3 = None
 
 
-def promote(node: Node, must_break=False):
-    print(f"Performing promotion on node {node}. This node must be broken: {must_break}")
+def promote(node: Node):
+    print(f"Performing promotion on node {node}.")
     # No parent node
-    if node.parent is None or must_break:
+    if node.parent is None:
         print(f"This node has no parent node/must be broken. Breaking node {node}")
         new_parent = Node()
         new_parent.value1 = node.temp_mid
@@ -117,7 +117,8 @@ def promote(node: Node, must_break=False):
                 or node.temp_right_small is not None \
                 or node.temp_right_big is not None:
 
-            print(f"This node {node} has 4 children due to one of its children node promoting into it. Restructuring...")
+            print(
+                f"This node {node} has 4 children due to one of its children node promoting into it. Restructuring...")
             new_left.child1 = node.temp_left_small
             new_left.child3 = node.temp_left_big
             new_right.child1 = node.temp_right_small
@@ -146,17 +147,73 @@ def promote(node: Node, must_break=False):
             node.child3.parent = new_right
 
         print(f"New top node {new_parent} has been created")
-        if node.parent is not None:
-            if node.parent.child1 == node:
-                node.parent.child1 = new_parent
-            elif node.parent.child2 == node:
-                node.parent.child2 = new_parent
-            elif node.parent.child3 == node:
-                node.parent.child3 = new_parent
-        else:
-            return new_parent
+        return new_parent
     else:
         print(f"Trying to promote into the parent node {node.parent}...")
+        has_reconfigured = False
+
+        # Needs to restructure
+        if node.temp_left_small is not None \
+                and node.temp_left_big is not None \
+                and node.temp_right_small is not None \
+                and node.temp_right_big is not None:
+
+            print(
+                f"This node {node} has 4 children due to one of its children node promoting into it. Restructuring...")
+
+            # Breaking 4 children into 2 subtrees
+            new_left = Node()
+            new_right = Node()
+            new_left.value1 = node.value1
+            new_right.value1 = node.value2
+
+            new_left.child1 = node.temp_left_small
+            new_left.child3 = node.temp_left_big
+            new_right.child1 = node.temp_right_small
+            new_right.child3 = node.temp_right_big
+
+            if node.temp_left_small is not None:
+                node.temp_left_small.parent = new_left
+            if node.temp_left_big is not None:
+                node.temp_left_big.parent = new_left
+            if node.temp_right_small is not None:
+                node.temp_right_small.parent = new_right
+            if node.temp_right_big is not None:
+                node.temp_right_big.parent = new_right
+
+            # Find out which child node current node belongs to
+            if node.parent.child1 == node:
+                # Has 3 children already
+                if node.parent.child2 is not None:
+                    node.parent.temp_left_small = new_left
+                    node.parent.temp_left_big = new_right
+                    node.parent.temp_right_small = node.parent.child2
+                    node.parent.temp_right_big = node.parent.child3
+                else:
+                    node.parent.child1 = new_left
+                    node.parent.child2 = new_right
+            elif node.parent.child2 == node:
+                node.parent.temp_left_small = node.parent.child1
+                node.parent.temp_left_big = new_left
+                node.parent.temp_right_small = new_right
+                node.parent.temp_right_big = node.parent.child3
+
+                new_left.parent = node.parent
+                new_right.parent = node.parent
+            elif node.parent.child3 == node:
+                if node.parent.child2 is not None:
+                    node.parent.temp_left_small = node.parent.child1
+                    node.parent.temp_left_big = node.parent.child2
+                    node.parent.temp_right_small = new_left
+                    node.parent.temp_right_big = new_right
+                else:
+                    node.parent.child2 = new_left
+                    node.parent.child3 = new_right
+
+            has_reconfigured = True
+            new_left.parent = node.parent
+            new_right.parent = node.parent
+
         # Insert mid into parent
         if node.temp_mid < node.parent.value1:
             # Parent has 2 values, needs to perform promotion again
@@ -165,8 +222,9 @@ def promote(node: Node, must_break=False):
                 node.parent.value1 = node.temp_mid
 
                 print(f"Promoted into parent node, resulting in: {node.parent}. Parent node now needs promotion")
-                reconfigure_children(node.parent)
-                return promote(node.parent, must_break=True)
+                if not has_reconfigured:
+                    reconfigure_children(node.parent)
+                return promote(node.parent)
             else:
                 node.parent.value2 = node.parent.value1
                 node.parent.value1 = node.temp_mid
@@ -182,8 +240,9 @@ def promote(node: Node, must_break=False):
                     node.parent.value2 = node.temp_mid
 
                 print(f"Promoted into parent node, resulting in: {node.parent}. Parent node now needs promotion")
-                reconfigure_children(node.parent)
-                return promote(node.parent, must_break=True)
+                if not has_reconfigured:
+                    reconfigure_children(node.parent)
+                return promote(node.parent)
             else:
                 node.parent.value2 = node.temp_mid
                 print(f"Promoted into parent node, resulting in: {node.parent}")
