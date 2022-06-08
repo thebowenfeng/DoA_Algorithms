@@ -16,7 +16,7 @@ Sample usage of each algorithm/data structure is in main.py
 
 ## Graph algorithms
 
-Graphs are assumed to be undirected
+Graphs can be undirected and weighted. Specify when constructing graph.
 
 ##### Prim's Algorithm
 
