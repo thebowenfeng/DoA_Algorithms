@@ -21,3 +21,7 @@ Graphs can be undirected and weighted. Specify when constructing graph.
 ##### Prim's Algorithm
 
 `prims()` in `prim.py`
+
+##### Dijkstra's Algorithm
+
+`dijkstra()` in `dijkstra.py`

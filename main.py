@@ -2,18 +2,18 @@ from AVL import insert_avl_tree, delete_avl_tree
 from twothreetree import insert_23_tree
 from graph_utils import Node, Graph
 from prims import prims
+from dijkstras import dijkstra
 
 if __name__ == '__main__':
-    #data = [1,2,3,4,5,6,7,8,9,10,11]
-    #root = insert_avl_tree(data)
+    # data = [1,2,3,4,5,6,7,8,9,10,11]
+    # root = insert_avl_tree(data)
 
-    #to_delete = [5,6,7,8,9,10,11]
-    #root = delete_avl_tree(root, to_delete)
+    # to_delete = [5,6,7,8,9,10,11]
+    # root = delete_avl_tree(root, to_delete)
 
-    #data = ['C', 'O', 'M', 'P', 'L', 'E', 'X', 'I', 'T', 'Y']
-
-    #root = insert_23_tree(data)
-
+    # data = ['C', 'O', 'M', 'P', 'L', 'E', 'X', 'I', 'T', 'Y']
+    # root = insert_23_tree(data)
+    '''
     node1 = Node(1)
     node2 = Node(2)
     node3 = Node(3)
@@ -33,6 +33,26 @@ if __name__ == '__main__':
     graph.add_edge(node4, node5, 22)
     graph.add_edge(node5, node6, 25)
     graph.add_edge(node5, node7, 24)
-
+    
     prims(graph)
+    '''
+    graph = Graph()
+
+    node1 = Node(1)
+    node2 = Node(2)
+    node3 = Node(3)
+    node4 = Node(4)
+    node5 = Node(5)
+    node6 = Node(6)
+
+    graph.add_edge(node1, node2, 2, False)
+    graph.add_edge(node1, node3, 4, False)
+    graph.add_edge(node2, node3, 1, False)
+    graph.add_edge(node2, node4, 7, False)
+    graph.add_edge(node3, node5, 3, False)
+    graph.add_edge(node5, node4, 2, False)
+    graph.add_edge(node4, node6, 1, False)
+    graph.add_edge(node5, node6, 5, False)
+
+    dijkstra(graph, node1, node4)
 
