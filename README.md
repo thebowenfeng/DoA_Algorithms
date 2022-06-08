@@ -32,6 +32,6 @@ Graphs can be undirected and weighted. Specify when constructing graph.
 
 `huffman()` and `huffman_decode()` in `huffman.py`
 
-## Storage
+## HashTable
 
 `HashTable.insert()` and `HashTable.lookup()` in `hash_tables.py`
