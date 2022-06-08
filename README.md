@@ -4,10 +4,20 @@ List of DoA algorithms and data structures, with detailed logging of the process
 
 Sample usage of each algorithm/data structure is in main.py
 
-### AVL Tree
+## Trees
+
+##### AVL Tree
 
 `insert_avl_tree()` and `delete_avl_tree()` in `AVL.py`. 
 
-### 2-3 Trees
+##### 2-3 Trees
 
 `insert_23_tree()` in `twothreetree.py`
+
+## Graph algorithms
+
+Graphs are assumed to be undirected
+
+##### Prim's Algorithm
+
+`prims()` in `prim.py`

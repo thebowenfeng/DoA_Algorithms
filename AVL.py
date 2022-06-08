@@ -1,4 +1,4 @@
-from utils import print_tree, DELIMITER
+from tree_utils import print_tree, DELIMITER
 
 
 class Node:
