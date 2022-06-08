@@ -4,6 +4,7 @@ from graph_utils import Node, Graph
 from prims import prims
 from dijkstras import dijkstra
 from huffman import huffman, huffman_decode
+from hash_tables import HashTable
 
 if __name__ == '__main__':
     # data = [1,2,3,4,5,6,7,8,9,10,11]
@@ -57,5 +58,15 @@ if __name__ == '__main__':
 
     dijkstra(graph, node1, node4)
     '''
-    en_msg, encoding = huffman("hello world")
-    de_msg = huffman_decode(en_msg, encoding)
+    #en_msg, encoding = huffman("free-coffee")
+    #de_msg = huffman_decode(en_msg, encoding)
+
+    table = HashTable(8, hash_func=lambda x: x % 8, mode="separate_chaining")
+
+    table.insert(9, "one")
+    table.insert(17, "two")
+    table.insert(4, "three")
+    table.insert(11, "four")
+    table.insert(1, "five")
+
+    table.lookup(15)
