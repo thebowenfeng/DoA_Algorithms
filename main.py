@@ -3,6 +3,7 @@ from twothreetree import insert_23_tree
 from graph_utils import Node, Graph
 from prims import prims
 from dijkstras import dijkstra
+from huffman import huffman, huffman_decode
 
 if __name__ == '__main__':
     # data = [1,2,3,4,5,6,7,8,9,10,11]
@@ -35,7 +36,7 @@ if __name__ == '__main__':
     graph.add_edge(node5, node7, 24)
     
     prims(graph)
-    '''
+    
     graph = Graph()
 
     node1 = Node(1)
@@ -55,4 +56,6 @@ if __name__ == '__main__':
     graph.add_edge(node5, node6, 5, False)
 
     dijkstra(graph, node1, node4)
-
+    '''
+    en_msg, encoding = huffman("hello world")
+    de_msg = huffman_decode(en_msg, encoding)

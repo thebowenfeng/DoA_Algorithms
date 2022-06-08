@@ -25,3 +25,9 @@ Graphs can be undirected and weighted. Specify when constructing graph.
 ##### Dijkstra's Algorithm
 
 `dijkstra()` in `dijkstra.py`
+
+## Compression
+
+##### Huffman Encoding
+
+`huffman()` and `huffman_decode()` in `huffman.py`
