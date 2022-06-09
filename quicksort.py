@@ -5,20 +5,20 @@ def lomuto(arr):
     print("Performing lomuto partitioning on array:", arr)
     if len(arr) <= 1:
         return arr
-    pivot = arr[-1]
+    pivot = arr[0]
     ptr = 0
 
     print("Pivot is:", pivot, "Pointer is initialized at:", ptr)
 
-    for i in range(len(arr) - 1):
+    for i in range(1, len(arr)):
         if arr[i] < pivot:
-            print(f"Current element {arr[i]} (index {i}) is smaller than pivot {pivot}. Swapping with element at index {ptr}. Pointer moved to {ptr + 1}")
-            arr[i], arr[ptr] = arr[ptr], arr[i]
             ptr += 1
+            print(f"Current element {arr[i]} (index {i}) is smaller than pivot {pivot}. Pointer moved to {ptr}. Swapping with element at index {ptr}")
+            arr[i], arr[ptr] = arr[ptr], arr[i]
             print(f"New array: {arr}")
 
     print("Swapping pivot with element at index", ptr)
-    arr[-1], arr[ptr] = arr[ptr], arr[-1]
+    arr[0], arr[ptr] = arr[ptr], arr[0]
     print("New array looks like:",arr, "Pointer is now at:", ptr)
     return ptr
 

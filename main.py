@@ -7,7 +7,7 @@ from huffman import huffman, huffman_decode
 from hash_tables import HashTable
 from horspool import horspool
 from heap import heapify, heap_delete, heap_sort
-from quicksort import quicksort
+from quicksort import quicksort, lomuto
 from mergesort import mergesort
 from floyd_warshall import warshall, floyd
 
