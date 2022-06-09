@@ -7,8 +7,11 @@ from huffman import huffman, huffman_decode
 from hash_tables import HashTable
 from horspool import horspool
 from heap import heapify, heap_delete, heap_sort
+from quicksort import quicksort
+from mergesort import mergesort
 
 if __name__ == '__main__':
+    '''
     # data = [1,2,3,4,5,6,7,8,9,10,11]
     # root = insert_avl_tree(data)
 
@@ -17,7 +20,7 @@ if __name__ == '__main__':
 
     # data = ['C', 'O', 'M', 'P', 'L', 'E', 'X', 'I', 'T', 'Y']
     # root = insert_23_tree(data)
-    '''
+    
     node1 = Node(1)
     node2 = Node(2)
     node3 = Node(3)
@@ -60,8 +63,8 @@ if __name__ == '__main__':
 
     dijkstra(graph, node1, node4)
     
-    #en_msg, encoding = huffman("free-coffee")
-    #de_msg = huffman_decode(en_msg, encoding)
+    # en_msg, encoding = huffman("free-coffee")
+    # de_msg = huffman_decode(en_msg, encoding)
 
     table = HashTable(8, hash_func=lambda x: x % 8, mode="separate_chaining")
 
@@ -73,12 +76,17 @@ if __name__ == '__main__':
 
     table.lookup(15)
     
-    horspool("trusthardtoothbrushes", "tooth")\
+    # horspool("trusthardtoothbrushes", "tooth")
 
-    arr = [None, 8, 4, 3, 5, 2, 13, 6, 4]
-    heapify(arr)
-    print(heap_delete(arr))
+    # arr = [None, 8, 4, 3, 5, 2, 13, 6, 4]
+    # heapify(arr)
+    # print(heap_delete(arr))
+    
+    # arr = [None, 8, 4, 3, 5, 2, 13, 6, 4]
+    # new = heap_sort(arr)
+    # print(new)
+    
+    # print(quicksort([1, 7, 6, 2, 9, 4, 3, 5]))
+    
+    # print(mergesort([1, 7, 6, 2, 9, 4, 3, 5]))
     '''
-    arr = [None, 8, 4, 3, 5, 2, 13, 6, 4]
-    new = heap_sort(arr)
-    print(new)

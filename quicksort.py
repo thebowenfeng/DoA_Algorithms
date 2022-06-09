@@ -39,6 +39,3 @@ def quicksort(arr):
     print(f"Resulting array: {result}")
     print(DELIMITER)
     return result
-
-
-print(quicksort([1, 7, 6, 2, 9, 4, 3, 5]))

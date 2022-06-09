@@ -57,3 +57,7 @@ Heap is assumed to be max heap
 Quicksort assumes lomuto partitioning scheme
 
 `quicksort()` in `quicksort.py`
+
+##### Merge sort
+
+`mergesort()` in `mergesort.py`
