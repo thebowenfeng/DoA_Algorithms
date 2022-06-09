@@ -35,3 +35,7 @@ Graphs can be undirected and weighted. Specify when constructing graph.
 ## HashTable
 
 `HashTable.insert()` and `HashTable.lookup()` in `hash_tables.py`
+
+## String search
+
+`horspool()` in `horspool.py`

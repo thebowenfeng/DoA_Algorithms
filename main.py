@@ -5,6 +5,7 @@ from prims import prims
 from dijkstras import dijkstra
 from huffman import huffman, huffman_decode
 from hash_tables import HashTable
+from horspool import horspool
 
 if __name__ == '__main__':
     # data = [1,2,3,4,5,6,7,8,9,10,11]
@@ -57,7 +58,7 @@ if __name__ == '__main__':
     graph.add_edge(node5, node6, 5, False)
 
     dijkstra(graph, node1, node4)
-    '''
+    
     #en_msg, encoding = huffman("free-coffee")
     #de_msg = huffman_decode(en_msg, encoding)
 
@@ -70,3 +71,5 @@ if __name__ == '__main__':
     table.insert(1, "five")
 
     table.lookup(15)
+    '''
+    horspool("trusthardtoothbrushes", "tooth")
