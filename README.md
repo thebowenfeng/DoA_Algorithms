@@ -61,3 +61,9 @@ Quicksort assumes lomuto partitioning scheme
 ##### Merge sort
 
 `mergesort()` in `mergesort.py`
+
+##### Radix sort
+
+Radix sort assumes base 10 and sorting on LSD.
+
+`radixsort()` in `radixsort.py`

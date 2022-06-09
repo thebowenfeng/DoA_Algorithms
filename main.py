@@ -89,4 +89,6 @@ if __name__ == '__main__':
     # print(quicksort([1, 7, 6, 2, 9, 4, 3, 5]))
     
     # print(mergesort([1, 7, 6, 2, 9, 4, 3, 5]))
+    
+    # print(radixsort([237, 146, 259, 348, 152, 163, 235, 48, 36, 62]))
     '''
