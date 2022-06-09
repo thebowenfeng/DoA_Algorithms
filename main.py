@@ -9,6 +9,7 @@ from horspool import horspool
 from heap import heapify, heap_delete, heap_sort
 from quicksort import quicksort
 from mergesort import mergesort
+from floyd_warshall import warshall, floyd
 
 if __name__ == '__main__':
     '''
@@ -91,4 +92,21 @@ if __name__ == '__main__':
     # print(mergesort([1, 7, 6, 2, 9, 4, 3, 5]))
     
     # print(radixsort([237, 146, 259, 348, 152, 163, 235, 48, 36, 62]))
+    
+    graph = Graph()
+    node1 = Node(1)
+    node2 = Node(2)
+    node3 = Node(3)
+    node4 = Node(4)
+    
+    graph.add_edge(node1, node2, 3, False)
+    graph.add_edge(node2, node3, 2, False)
+    graph.add_edge(node1, node4, 7, False)
+    graph.add_edge(node2, node1, 8, False)
+    graph.add_edge(node3, node1, 5, False)
+    graph.add_edge(node3, node4, 1, False)
+    graph.add_edge(node4, node1, 2, False)
+    
+    warshall(graph)
+    floyd(graph)
     '''

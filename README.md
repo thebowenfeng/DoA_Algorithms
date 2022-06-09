@@ -26,6 +26,16 @@ Graphs can be undirected and weighted. Specify when constructing graph.
 
 `dijkstra()` in `dijkstra.py`
 
+##### Warshall's Algorithm
+
+Only for finding transitive closure of graph
+
+`warshall()` in `floyd_warshall.py`
+
+##### Floyd's (Floyd-Warshall's) Algorithm
+
+`floyd()` in `floyd_warshall.py`
+
 ## Compression
 
 ##### Huffman Encoding
