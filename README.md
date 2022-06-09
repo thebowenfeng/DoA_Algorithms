@@ -51,3 +51,9 @@ Heap is assumed to be max heap
 ##### Heap sort
 
 `heap_sort()` in `heap.py`
+
+##### Quick sort
+
+Quicksort assumes lomuto partitioning scheme
+
+`quicksort()` in `quicksort.py`
