@@ -45,3 +45,9 @@ Graphs can be undirected and weighted. Specify when constructing graph.
 Heap is assumed to be max heap
 
 `heapify()`, `insert_heap()`, `delete_heap()` in `heap.py`
+
+## Sorting algorithms
+
+##### Heap sort
+
+`heap_sort()` in `heap.py`

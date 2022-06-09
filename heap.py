@@ -106,6 +106,9 @@ def heap_delete(heap, zero_index=False):
     if len(heap) == 1:
         print("Heap is empty")
         return
+    elif len(heap) == 2:
+        print("Heap has only one node")
+        return heap.pop()
 
     root_val = heap[1]
     print(f"Root node is {root_val}")
@@ -117,6 +120,16 @@ def heap_delete(heap, zero_index=False):
     return root_val
 
 
-arr = [None, 60, 50, 25, 40, 10, 15, 18, 12, 20]
-heap_delete(arr)
-print(arr)
+def heap_sort(arr):
+    print("Performing heap sort on array:", arr, "First heapifying array")
+    heapify(arr)
+    new_arr = []
+
+    print(DELIMITER * 2)
+    print("Sorting array")
+
+    while len(arr) > 1:
+        print(DELIMITER * 2)
+        new_arr.insert(0, heap_delete(arr))
+
+    return new_arr
