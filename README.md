@@ -39,3 +39,9 @@ Graphs can be undirected and weighted. Specify when constructing graph.
 ## String search
 
 `horspool()` in `horspool.py`
+
+## Heap
+
+Heap is assumed to be max heap
+
+`heapify()`, `insert_heap()`, `delete_heap()` in `heap.py`

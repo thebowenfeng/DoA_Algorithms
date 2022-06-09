@@ -6,6 +6,7 @@ from dijkstras import dijkstra
 from huffman import huffman, huffman_decode
 from hash_tables import HashTable
 from horspool import horspool
+from heap import heapify, heap_delete
 
 if __name__ == '__main__':
     # data = [1,2,3,4,5,6,7,8,9,10,11]
@@ -71,5 +72,9 @@ if __name__ == '__main__':
     table.insert(1, "five")
 
     table.lookup(15)
+    
+    horspool("trusthardtoothbrushes", "tooth")\
     '''
-    horspool("trusthardtoothbrushes", "tooth")
+    arr = [None, 8, 4, 3, 5, 2, 13, 6, 4]
+    heapify(arr)
+    print(heap_delete(arr))
