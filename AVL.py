@@ -128,66 +128,55 @@ def rl_rotation(node):
     return new_root
 
 
-def fix_tree(parent, node, case):
-    if node is None:
-        return None
-
+def fix_tree(node, case):
     if case == "ll":
-        # Find the first subtree that is imbalanced
-        if abs(node.b_factor) > 1:
-            new = ll_rotation(node)
-            if parent is None:
-                return new
-            else:
-                if parent.left == node:
-                    parent.left = new
-                else:
-                    parent.right = new
+        # Check if left subtree is imbalanced
+        if get_height(node.left) > 2 and node.left.b_factor < -1 or node.left.b_factor > 1:
+            node.left = fix_tree(node.left, "ll")
+
+            return node
+        elif get_height(node.right) > 2 and node.right.b_factor < -1 or node.right.b_factor > 1:
+            node.right = fix_tree(node.right, "ll")
+
+            return node
         else:
-            fix_tree(node, node.left, "ll")
-            fix_tree(node, node.right, "ll")
+            return ll_rotation(node)
     elif case == "lr":
-        # Find the first subtree that is imbalanced
-        if abs(node.b_factor) > 1:
-            new = lr_rotation(node)
-            if parent is None:
-                return new
-            else:
-                if parent.left == node:
-                    parent.left = new
-                else:
-                    parent.right = new
+        # Check if left subtree is imbalanced
+        if get_height(node.left) > 2 and node.left.b_factor < -1 or node.left.b_factor > 1:
+            node.left = fix_tree(node.left, "lr")
+
+            return node
+        elif get_height(node.right) > 2 and node.right.b_factor < -1 or node.right.b_factor > 1:
+            node.right = fix_tree(node.right, "lr")
+
+            return node
         else:
-            fix_tree(node, node.left, "lr")
-            fix_tree(node, node.right, "lr")
+            return lr_rotation(node)
     elif case == "rr":
-        # Find the first subtree that is imbalanced
-        if abs(node.b_factor) > 1:
-            new = rr_rotation(node)
-            if parent is None:
-                return new
-            else:
-                if parent.left == node:
-                    parent.left = new
-                else:
-                    parent.right = new
+        # Check if left subtree is imbalanced
+        if get_height(node.left) > 2 and node.left.b_factor < -1 or node.left.b_factor > 1:
+            node.left = fix_tree(node.left, "rr")
+
+            return node
+        elif get_height(node.right) > 2 and node.right.b_factor < -1 or node.right.b_factor > 1:
+            node.right = fix_tree(node.right, "rr")
+
+            return node
         else:
-            fix_tree(node, node.left, "rr")
-            fix_tree(node, node.right, "rr")
+            return rr_rotation(node)
     elif case == "rl":
-        # Find the first subtree that is imbalanced
-        if abs(node.b_factor) > 1:
-            new = rl_rotation(node)
-            if parent is None:
-                return new
-            else:
-                if parent.left == node:
-                    parent.left = new
-                else:
-                    parent.right = new
+        # Check if left subtree is imbalanced
+        if get_height(node.left) > 2 and node.left.b_factor < -1 or node.left.b_factor > 1:
+            node.left = fix_tree(node.left, "rl")
+
+            return node
+        elif get_height(node.right) > 2 and node.right.b_factor < -1 or node.right.b_factor > 1:
+            node.right = fix_tree(node.right, "rl")
+
+            return node
         else:
-            fix_tree(node, node.left, "rl")
-            fix_tree(node, node.right, "rl")
+            return rl_rotation(node)
     else:
         raise Exception("Invalid imbalance case")
 
@@ -222,16 +211,16 @@ def insert(node, value):
             print_tree(node, val="b_factor")
             # Left-left imbalance
             if queue[0] == "left" and queue[1] == "left":
-                new_root = fix_tree(None, node, "ll")
+                new_root = fix_tree(node, "ll")
             elif queue[0] == "left" and queue[1] == "right":
                 # Left-right imbalance
-                new_root = fix_tree(None, node, "lr")
+                new_root = fix_tree(node, "lr")
             elif queue[0] == "right" and queue[1] == "right":
                 # Right-right imbalance
-                new_root = fix_tree(None, node, "rr")
+                new_root = fix_tree(node, "rr")
             elif queue[0] == "right" and queue[1] == "left":
                 # Right-left imbalance
-                new_root = fix_tree(None, node, "rl")
+                new_root = fix_tree(node, "rl")
             else:
                 raise Exception("Invalid imbalance case")
 
@@ -348,13 +337,13 @@ def delete(node, value):
         return None
 
 
-def insert_avl_tree(array):
+def insert_avl_tree(array, node=None):
     '''
     Inserts an array of values into an AVL tree.
     :param array: Array of (preferably) integers, but can handle any arbitrary data type
     :return: Root node of the AVL tree
     '''
-    root = None
+    root = node
     for value in array:
         root = insert(root, value)
 
