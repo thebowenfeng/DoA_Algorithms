@@ -59,26 +59,7 @@ class HashTable:
                 print(f"Separate chaining is used. Index {index} is empty therefore key does not exist")
                 raise Exception("Key not found")
             else:
-                print(f"Current index position is empty at index {index}. Commencing open address search with step size {self.step_size}")
-                index += self.step_size
-                if index == self.size:
-                    index = 0
-                fail_count = 0
-
-                while fail_count < self.size:
-                    if self.table[index] is None:
-                        print(f"Current index {index} is still null. Moving onto the next position.")
-                    elif key == self.table[index][0]:
-                        print(f"Key {key} was found at index {index}")
-                        return self.table[index][1]
-                    else:
-                        print(f"Current index {index} does not contain correct key. Moving onto the next position")
-
-                    index += self.step_size
-                    if index == self.size:
-                        index = 0
-                    fail_count += 1
-
+                print(f"Open addressing is used. Index {index} is empty therefore key does not exist")
                 raise Exception("Key not found")
         else:
             if self.mode == "separate_chaining":
@@ -94,7 +75,8 @@ class HashTable:
                 fail_count = 0
                 while fail_count < self.size:
                     if self.table[index] is None:
-                        print(f"Current index {index} is null. Moving onto the next position.")
+                        print(f"Current index {index} is null. Key does not exist.")
+                        break
                     elif key == self.table[index][0]:
                         print(f"Key {key} found at index {index}")
                         return self.table[index][1]
