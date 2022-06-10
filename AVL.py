@@ -42,22 +42,17 @@ def get_b_factor(node):
         node.b_factor = get_height(node.left) - get_height(node.right)
 
 
-def recursive_insert(node, value, queue):
+def recursive_insert(node, value):
     if value < node.value:
-        queue.append("left")
         if node.left is None:
             node.left = Node(value)
         else:
-            recursive_insert(node.left, value, queue)
+            recursive_insert(node.left, value)
     else:
-        queue.append("right")
         if node.right is None:
             node.right = Node(value)
         else:
-            recursive_insert(node.right, value, queue)
-
-    if len(queue) > 2:
-        queue.pop(0)
+            recursive_insert(node.right, value)
 
 
 def ll_rotation(node):
@@ -128,55 +123,77 @@ def rl_rotation(node):
     return new_root
 
 
-def fix_tree(node, case):
+def fix_tree(parent, node):
+    if node is None:
+        return None
+
+    lowest = [0]
+    lowest_node = [None]
+    lowest_parent = [None]
+
+    def dfs(par: tuple, nod: Node, lvl, low: list, low_par: list, low_num: list):
+        if nod is None:
+            return
+        else:
+            if abs(nod.b_factor) > 1 and lvl > low_num[0]:
+                low[0] = nod
+                low_num[0] = lvl
+                low_par[0] = par
+
+            dfs((nod, "left"), nod.left, lvl + 1, low, low_par, low_num)
+            dfs((nod, "right"), nod.right, lvl + 1, low, low_par, low_num)
+
+    dfs(None, node, 1, lowest_node, lowest_parent, lowest)
+    lowest_node = lowest_node[0]
+    lowest_parent = lowest_parent[0]
+
+    if lowest_node.left is not None and lowest_node.left.left is not None:
+        case = "ll"
+    elif lowest_node.right is not None and lowest_node.right.right is not None:
+        case = "rr"
+    elif lowest_node.right is not None and lowest_node.right.left is not None:
+        case = "rl"
+    elif lowest_node.left is not None and lowest_node.left.right is not None:
+        case = "lr"
+    else:
+        raise Exception("Invalid imbalance case")
+
     if case == "ll":
-        # Check if left subtree is imbalanced
-        if get_height(node.left) > 2 and node.left.b_factor < -1 or node.left.b_factor > 1:
-            node.left = fix_tree(node.left, "ll")
-
-            return node
-        elif get_height(node.right) > 2 and node.right.b_factor < -1 or node.right.b_factor > 1:
-            node.right = fix_tree(node.right, "ll")
-
-            return node
+        if lowest_parent is None:
+            return ll_rotation(lowest_node)
         else:
-            return ll_rotation(node)
+            # node is left child of parent
+            if lowest_parent[1] == "left":
+                lowest_parent[0].left = ll_rotation(lowest_node)
+            else:
+                lowest_parent[0].right = ll_rotation(lowest_node)
     elif case == "lr":
-        # Check if left subtree is imbalanced
-        if get_height(node.left) > 2 and node.left.b_factor < -1 or node.left.b_factor > 1:
-            node.left = fix_tree(node.left, "lr")
-
-            return node
-        elif get_height(node.right) > 2 and node.right.b_factor < -1 or node.right.b_factor > 1:
-            node.right = fix_tree(node.right, "lr")
-
-            return node
+        if lowest_parent is None:
+            return lr_rotation(lowest_node)
         else:
-            return lr_rotation(node)
+            # node is left child of parent
+            if lowest_parent[1] == "left":
+                lowest_parent[0].left = lr_rotation(lowest_node)
+            else:
+                lowest_parent[0].right = lr_rotation(lowest_node)
     elif case == "rr":
-        # Check if left subtree is imbalanced
-        if get_height(node.left) > 2 and node.left.b_factor < -1 or node.left.b_factor > 1:
-            node.left = fix_tree(node.left, "rr")
-
-            return node
-        elif get_height(node.right) > 2 and node.right.b_factor < -1 or node.right.b_factor > 1:
-            node.right = fix_tree(node.right, "rr")
-
-            return node
+        if lowest_parent is None:
+            return rr_rotation(lowest_node)
         else:
-            return rr_rotation(node)
+            # node is left child of parent
+            if lowest_parent[1] == "left":
+                lowest_parent[0].left = rr_rotation(lowest_node)
+            else:
+                lowest_parent[0].right = rr_rotation(lowest_node)
     elif case == "rl":
-        # Check if left subtree is imbalanced
-        if get_height(node.left) > 2 and node.left.b_factor < -1 or node.left.b_factor > 1:
-            node.left = fix_tree(node.left, "rl")
-
-            return node
-        elif get_height(node.right) > 2 and node.right.b_factor < -1 or node.right.b_factor > 1:
-            node.right = fix_tree(node.right, "rl")
-
-            return node
+        if lowest_parent is None:
+            return rl_rotation(lowest_node)
         else:
-            return rl_rotation(node)
+            # node is left child of parent
+            if lowest_parent[1] == "left":
+                lowest_parent[0].left = rl_rotation(lowest_node)
+            else:
+                lowest_parent[0].right = rl_rotation(lowest_node)
     else:
         raise Exception("Invalid imbalance case")
 
@@ -199,7 +216,7 @@ def insert(node, value):
         print(DELIMITER)
         return Node(value)
     else:
-        recursive_insert(node, value, queue)
+        recursive_insert(node, value)
         # print_tree(node, val="value")
         get_b_factor(node)
 
@@ -210,19 +227,7 @@ def insert(node, value):
             print(f"Here are the balance factors of the tree")
             print_tree(node, val="b_factor")
             # Left-left imbalance
-            if queue[0] == "left" and queue[1] == "left":
-                new_root = fix_tree(node, "ll")
-            elif queue[0] == "left" and queue[1] == "right":
-                # Left-right imbalance
-                new_root = fix_tree(node, "lr")
-            elif queue[0] == "right" and queue[1] == "right":
-                # Right-right imbalance
-                new_root = fix_tree(node, "rr")
-            elif queue[0] == "right" and queue[1] == "left":
-                # Right-left imbalance
-                new_root = fix_tree(node, "rl")
-            else:
-                raise Exception("Invalid imbalance case")
+            new_root = fix_tree(None, node)
 
             if new_root is not None:
                 print("Tree after rebalancing:")
