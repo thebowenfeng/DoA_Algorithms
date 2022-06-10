@@ -18,7 +18,14 @@ class Node:
         return self.display_val
 
     def __lt__(self, other):
-        return self.value < other.value
+        if self.data is not None and other.data is not None and self.value == other.value:
+            if not self.data.isalnum() and other.data.isalnum():
+                return True
+            elif self.data.isalnum() and not other.data.isalnum():
+                return False
+            return self.data > other.data
+        else:
+            return self.value < other.value
 
 
 def find_data(node: Node, encoding: dict, path: str):
@@ -86,7 +93,7 @@ def huffman(message: str):
     print("The encodings based on the tree is: {}".format(encoding))
     encoded_msg = ""
     for char in message:
-        encoded_msg += encoding[char]
+        encoded_msg += ' ' + encoding[char]
 
     print("The encoded message is: {}".format(encoded_msg))
 
