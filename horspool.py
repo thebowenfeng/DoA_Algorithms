@@ -24,7 +24,7 @@ def horspool(text: str, pattern: str):
         print(' '.join([i for i in text]))
         print(' ' * pattern_index * 2 + ' '.join([i for i in pattern]))
 
-        while pattern_cmp > 0 and pattern[pattern_cmp] == text[text_cmp]:
+        while pattern_cmp > -1 and pattern[pattern_cmp] == text[text_cmp]:
             print("equal comparison")
             pattern_cmp -= 1
             text_cmp -= 1
