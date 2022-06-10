@@ -93,9 +93,9 @@ def huffman(message: str):
     print("The encodings based on the tree is: {}".format(encoding))
     encoded_msg = ""
     for char in message:
-        encoded_msg += ' ' + encoding[char]
+        encoded_msg += encoding[char]
 
-    print("The encoded message is: {}".format(encoded_msg))
+    print("The encoded message is: {}".format(' '.join([i for i in encoded_msg])))
 
     return encoded_msg, encoding
 
