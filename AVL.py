@@ -123,7 +123,7 @@ def rl_rotation(node):
     return new_root
 
 
-def fix_tree(parent, node):
+def fix_tree(parent, node, deletion=False):
     if node is None:
         return None
 
@@ -147,16 +147,38 @@ def fix_tree(parent, node):
     lowest_node = lowest_node[0]
     lowest_parent = lowest_parent[0]
 
-    if lowest_node.left is not None and lowest_node.left.left is not None:
-        case = "ll"
-    elif lowest_node.right is not None and lowest_node.right.right is not None:
-        case = "rr"
-    elif lowest_node.right is not None and lowest_node.right.left is not None:
-        case = "rl"
-    elif lowest_node.left is not None and lowest_node.left.right is not None:
-        case = "lr"
+    if not deletion:
+        if lowest_node.left is not None and lowest_node.left.left is not None:
+            case = "ll"
+        elif lowest_node.right is not None and lowest_node.right.right is not None:
+            case = "rr"
+        elif lowest_node.right is not None and lowest_node.right.left is not None:
+            case = "rl"
+        elif lowest_node.left is not None and lowest_node.left.right is not None:
+            case = "lr"
+        else:
+            raise Exception("Invalid imbalance case")
     else:
-        raise Exception("Invalid imbalance case")
+        if get_height(lowest_node.left) > get_height(lowest_node.right):
+            max_child1 = lowest_node.left
+        else:
+            max_child1 = lowest_node.right
+
+        if get_height(max_child1.left) > get_height(max_child1.right):
+            max_child2 = max_child1.left
+        else:
+            max_child2 = max_child1.right
+
+        if max_child1 == lowest_node.left and max_child2 == max_child1.left:
+            case = "ll"
+        elif max_child1 == lowest_node.left and max_child2 == max_child1.right:
+            case = "lr"
+        elif max_child1 == lowest_node.right and max_child2 == max_child1.left:
+            case = "rl"
+        elif max_child1 == lowest_node.right and max_child2 == max_child1.right:
+            case = "rr"
+        else:
+            raise Exception("Invalid imbalance case")
 
     if case == "ll":
         if lowest_parent is None:
@@ -198,16 +220,17 @@ def fix_tree(parent, node):
         raise Exception("Invalid imbalance case")
 
 
+def check_imbalance(node):
+    if node is None:
+        return False
+
+    if node.b_factor < -1 or node.b_factor > 1:
+        return True
+    else:
+        return check_imbalance(node.left) or check_imbalance(node.right)
+
+
 def insert(node, value):
-    def check_imbalance(node):
-        if node is None:
-            return False
-
-        if node.b_factor < -1 or node.b_factor > 1:
-            return True
-        else:
-            return check_imbalance(node.left) or check_imbalance(node.right)
-
     print(f"Inserting {value}...")
     queue = []
 
@@ -247,10 +270,14 @@ def insert(node, value):
 
 
 def get_max(node):
-    if node is None:
-        return float('-inf')
-
-    return max(node.value, get_max(node.left), get_max(node.right))
+    if node.left is None and node.right is None:
+        return node.value
+    elif node.left is None and node.right is not None:
+        return max(node.value, get_max(node.right))
+    elif node.right is None and node.left is not None:
+        return max(node.value, get_max(node.left))
+    else:
+        return max(node.value, get_max(node.left), get_max(node.right))
 
 
 def recursive_delete(parent, node, value):
@@ -292,52 +319,32 @@ def recursive_delete(parent, node, value):
 def delete(node, value):
     print(f"Deleting {value}...")
 
-    def detect_case(node):
-        if node is None:
-            return False
-
-        if node.b_factor < -1 or node.b_factor > 1:
-            # Detect which case it is
-            if node.left is not None and node.left.left is not None:
-                return "ll"
-            elif node.right is not None and node.right.right is not None:
-                return "rr"
-            elif node.left is not None and node.left.right is not None:
-                return "lr"
-            elif node.right is not None and node.right.left is not None:
-                return "rl"
-            else:
-                raise Exception("Error detecting imbalance case for deletion")
-        else:
-            return detect_case(node.left) or detect_case(node.right)
-
     recursive_delete(None, node, value)
 
     # Check if root is not None (tree is empty)
     if node.value is not None:
         get_b_factor(node)
-
-        case = detect_case(node)
-        if not case:
-            print("Tree is still balanced after deletion balanced")
-            print_tree(node, val="value")
-            print(DELIMITER)
-            return node
-        else:
-            print("Tree is imbalanced after deletion. It is a {} imbalance case. Tree is like this: ".format(case))
+        case = check_imbalance(node)
+        while case:
+            print("Tree is imbalanced after deletion.")
             print_tree(node, val="value")
             print("Fixing tree...")
 
-            new_root = fix_tree(None, node, case)
+            new_root = fix_tree(None, node, deletion=True)
+            if new_root is not None:
+                node = new_root
 
             print("Tree fixed. Tree is like this:")
             print_tree(node, val="value")
             print(DELIMITER)
 
-            if new_root is not None:
-                return new_root
-            else:
-                return node
+            get_b_factor(node)
+            case = check_imbalance(node)
+
+        print("Tree is balanced after deletion balanced")
+        print_tree(node, val="value")
+        print(DELIMITER)
+        return node
     else:
         return None
 
