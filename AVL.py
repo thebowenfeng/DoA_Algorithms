@@ -78,14 +78,16 @@ def ll_rotation(node):
 
 def lr_rotation(node):
     print("Left right rotation used for node: " + str(node.value))
+    old_child_left = node.left.right.left
     old_left = node.left
     node.left = old_left.right
     node.left.left = old_left
-    old_left.right = None
+    old_left.right = old_child_left
 
+    old_child_right = node.left.right
     new_root = node.left
     new_root.right = node
-    node.left = None
+    node.left = old_child_right
 
     return new_root
 
@@ -111,14 +113,16 @@ def rr_rotation(node):
 
 def rl_rotation(node):
     print("Right left rotation used for node: " + str(node.value))
+    old_child_right = node.right.left.right
     old_right = node.right
     node.right = old_right.left
     node.right.right = old_right
-    old_right.left = None
+    old_right.left = old_child_right
 
+    old_child_left = node.right.left
     new_root = node.right
     new_root.left = node
-    node.right = None
+    node.right = old_child_left
 
     return new_root
 
@@ -328,6 +332,7 @@ def delete(node, value):
         while case:
             print("Tree is imbalanced after deletion.")
             print_tree(node, val="value")
+            print_tree(node, val="b_factor")
             print("Fixing tree...")
 
             new_root = fix_tree(None, node, deletion=True)

@@ -2,6 +2,7 @@ from tree_utils import DELIMITER
 
 
 def horspool(text: str, pattern: str):
+    comparisons = 0
     print("Performing Horspool's algorithm with text: {} and pattern: {}".format(text, pattern))
     bad_match = {}
     for index, i in enumerate(pattern):
@@ -25,14 +26,16 @@ def horspool(text: str, pattern: str):
         print(' ' * pattern_index * 2 + ' '.join([i for i in pattern]))
 
         while pattern_cmp > -1 and pattern[pattern_cmp] == text[text_cmp]:
+            comparisons += 1
             print("equal comparison")
             pattern_cmp -= 1
             text_cmp -= 1
 
         if pattern_cmp == -1:
-            print("Found at index:", pattern_index)
+            print("Found at index:", pattern_index, " Number of comparisons:", comparisons)
             return pattern_index
         else:
+            comparisons += 1
             print(f"Mismatch found at index {text_cmp} in text. Character mismatched is text: {text[text_cmp]} pattern: {pattern[pattern_cmp]}")
             pattern_cmp = len(pattern) - 1
             if first_char not in bad_match:
@@ -43,6 +46,6 @@ def horspool(text: str, pattern: str):
                 pattern_index += bad_match[first_char]
 
             text_cmp = pattern_index + len(pattern) - 1
-            print(f"New pattern index is {pattern_index}.")
+            print(f"New pattern index is {pattern_index}. Comparisons so far: {comparisons}")
 
-    print("Not found")
+    print("Not found. Number of comparisons:", comparisons)
